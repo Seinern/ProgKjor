@@ -1,14 +1,13 @@
-//
-//  oblig1.c
-//  ProgKjor
-//
-//  Program:
-//  -Leser to lags navn, og skriver deres to linjer fra en tabell
-//  -Leser lagenes målscore og poeng, oppdaterer tabellen, og skriver dette så ut igjen
-//
-//  Created by William Seiner on 11/09/2019.
-//  Copyright © 2019 William Seiner. All rights reserved.
-//
+/**
+*  Oblig 1 i Grunnleggende programmering.
+*
+*  Program:
+*  -Leser to lags navn, og skriver deres to linjer fra en tabell
+*  -Leser lagenes målscore og poeng, oppdaterer tabellen, og skriver dette så ut igjen
+*
+*  @file    oblig1.c
+*  @author  William Seiner
+*/
 
 #include <stdio.h>      //  printf, scanf
 
@@ -21,11 +20,11 @@ int main () {           // Starter programmet
     int tallB[] = {10, 12, 32, 34};      // Lager array for bortelaget
     char navnA[STRLEN], navnB[STRLEN];    // Lager variablene for lagnavnene
     
+    // Bruker gets() på de to neste linjene pga. mulighet for mellomrom i lagnavnene:
+    
     printf("Skriv inn hjemmelagets navn: "); gets(navnA);   // Leser navnet til hjemmelaget
     
     printf("Skriv inn bortelagets navn: "); gets(navnB);    // Leser navnet til bortelaget
-    
-    // Bruker gets() på de to linjene pga. mulighet for mellomrom i lagnavnene
     
     printf("%s: %i %i-%i %i\n", navnA, tallA[0], tallA[1], tallA[2], tallA[3]);   // Skriver ut statistikk for hjemmelaget
     
