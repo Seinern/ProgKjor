@@ -15,13 +15,9 @@ const int MAXREGNEOPERASJONER = 50;
 
 int main () {           // Starter programmet
     
-    int i;
-    int antallOperasjoner = 0;
-    float tallene [MAXREGNEOPERASJONER];
-    float akkumulator=0, tall;
-    
-    char regneOperasjon;
-    char regneOperasjoner[MAXREGNEOPERASJONER];
+    int i, antallOperasjoner = 0;
+    float tallene [MAXREGNEOPERASJONER], akkumulator=0, tall;
+    char regneOperasjoner[MAXREGNEOPERASJONER], regneOperasjon;
     
     
     
@@ -33,6 +29,8 @@ int main () {           // Starter programmet
         printf(": "); scanf(" %c %f", &regneOperasjon, &tall);
         
         regneOperasjon = tolower(regneOperasjon);
+        
+        
         
         switch (regneOperasjon)  {
             case '+':   akkumulator+=tall;                      break;
