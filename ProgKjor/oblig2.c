@@ -9,9 +9,8 @@
  */
 
 #include <stdio.h>      // scanf, printf
-#include <ctype.h>
-#include <string.h>
-
+#include <ctype.h>      // tolower
+#include <stdbool.h>    //
 
 const int MAXREGNEOPERASJONER = 50;
 
@@ -20,56 +19,79 @@ int main () {           // Starter programmet
     int i, antallOperasjoner = 0;
     float tallene [MAXREGNEOPERASJONER], akkumulator=0, tall=0.0;
     char regneOperasjoner[MAXREGNEOPERASJONER], regneOperasjon;
+    bool lagreOperasjon;
     
     
     
     printf("Enkel kalkulator:\n\n");
     
-    printf("= %f\n\n", akkumulator);
+    printf("= %f\n", akkumulator);
     
     do {
-        printf("\n\n: "); scanf (" %c", &regneOperasjon);
+        printf("\n: "); scanf (" %c", &regneOperasjon);
         
         regneOperasjon = tolower(regneOperasjon);
+        
+        lagreOperasjon=true;
         
         switch (regneOperasjon)  {
             case '+':
                 scanf(" %f", &tall);
-                printf("\n%f + %f", akkumulator, tall);
+                printf("\n%.3f + %.3f", akkumulator, tall);
                 akkumulator+=tall;
-                printf(" = %f", akkumulator);                     break;
+                printf(" = %.3f\n", akkumulator);
+                break;
             case '-':
                 scanf(" %f", &tall);
-                printf("\n%f - %f", akkumulator, tall);
+                printf("\n%.3f - %.3f", akkumulator, tall);
                 akkumulator-=tall;
-                printf(" = %f", akkumulator);                     break;
+                printf(" = %.3f\n", akkumulator);
+                break;
             case '*':
                 scanf(" %f", &tall);
-                printf("\n%f * %f", akkumulator, tall);
+                printf("\n%.3f * %.3f", akkumulator, tall);
                 akkumulator*=tall;
-                printf(" = %f", akkumulator);                     break;
+                printf(" = %.3f\n", akkumulator);
+                break;
             case '/':
                 scanf(" %f", &tall);
-                if (tall==0)
-                    printf ("\nDele på null er tull!\n\n");
-                else
-                    printf("\n%f / %f", akkumulator, tall);
+                if (tall==0) {
+                    printf ("\nFeil! Dele på null er tull!\n");
+                    printf("\n= %.3f\n", akkumulator);
+                    lagreOperasjon=false;
+                }
+                else {
+                    printf("\n%.3f / %.3f", akkumulator, tall);
                     akkumulator/=tall;
-                    printf(" %f", akkumulator);                  break;
+                    printf(" = %.3f\n", akkumulator);
+                }
+                break;
             case 't':
                 scanf(" %f", &tall);
-                akkumulator=tall;                              break;
-            case 'c':   akkumulator=0;                          break;
-            case 's':   printf("\nEnkel kalkulator stopper\n");      break;
-            default:    printf("\n Feil! Ukjent kommando gitt\n");   break;
+                akkumulator=tall;
+                printf("\nAkkumulatoren er nå satt til: %.3f\n", akkumulator);
+                break;
+            case 'c':
+                akkumulator=0;
+                printf("\nAkkumulatoren settes til 0\n");
+                printf("\n= %.3f\n", akkumulator);
+                break;
+            case 's':
+                printf("\nEnkel kalkulator stopper\n");
+                lagreOperasjon=false;
+                break;
+            default:
+                printf("\n Feil! Ukjent kommando gitt\n");
+                printf("\n= %.3f\n", akkumulator);
+                lagreOperasjon=false;
+                break;
         }
         
-        regneOperasjoner[antallOperasjoner]+=regneOperasjon;
-        
-        tallene[antallOperasjoner]+=tall;
-        
-        antallOperasjoner++;
-        
+        if(lagreOperasjon==true) {
+            regneOperasjoner[antallOperasjoner]+=regneOperasjon;
+            tallene[antallOperasjoner]+=tall;
+            antallOperasjoner++;
+        }
     } while(regneOperasjon!='s');
     
     printf("\nOperasjonen og tallene brukt:  \n");
