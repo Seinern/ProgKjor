@@ -11,7 +11,7 @@
 
 #include <stdio.h>      //  printf, scanf
 
-const int STRLEN=20;    ///< Max tekstlengde på lagnavnene
+const int STRLEN=20;   
 
 int main () {           // Starter programmet
     
