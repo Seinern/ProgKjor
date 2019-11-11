@@ -1,67 +1,67 @@
 /**
-*  Oblig 3 i grunnleggende programmering.
-*
-*  Programmet utfører forskjellige kommandoer fra brukeren.
-*
-*  @file    oblig2.c
-*  @author  William Seiner
-*/
+ *  Oblig 4 i grunnleggende programmering.
+ *
+ *  Programmet utfører forskjellige kommandoer fra brukeren.
+ *
+ *  @file    oblig4.c
+ *  @author  William Seiner
+ */
 
 #include <stdio.h>          // scanf, printf
 #include <stdbool.h>        // bool
 #include <ctype.h>          // toupper, isdigit, isalpha
 
-const int STRLEN = 80;    ///< Max.tekstlengde.
-const int ANTINT = 20;    ///< Lengden på int-array.
+#define MAXPERS 6;
+#define MAXOPPG 20;
 
-int antallIArray(int tall[], const int n, const int min, const int max);  // Funksjon som teller tall som er mellom min og max
-void fyllArray(int tall[], const int n);                                // Fyller array med tall lest av lesTall()
-char lesKommando(void);                                                // Leser kommando fra bruker
-int lesTall(const char tekst[], const int min, const int max);            // Leser tall mellom min og max fra bruker
-void lesTekst(const char ledetekst[], char tekst[]);                    // Leser tekst fra brukeren
-bool sjekkTekst(const char tekst[]);                                   // Sjekker om tekst er gyldig post -nr og sted
-void skrivMeny(void);                                                 // Skriver ut en meny om kommandoer som kan brukes
+struct Oppgave {
+    char* navn;
+    int antallTotalt,
+    antallNaa;
+    hvem[MAXPERS];
+};
+
+void nyOppgave();
+void oppgaveLesData(struct Oppgave* oppgave);
+void skrivOppgaver();
+void oppgaveSkrivData(const struct Oppgave* oppgave);
+void ledigeOppgaver();
+bool oppgaveLedigPlass(const struct Oppgave* oppgave);
+void personerTilknyttesOppgave();
+void oppgaveTilknyttPersoner(struct Oppgave* oppgave)
+void fjernOppgave();
+void oppgaveSlettData(struct Oppgave* oppgave);
+
+
+struct Oppgave* gOppgavene[MAXOPPG];
+int gSisteOppgave = 0;
 
 /**
- * Hovedprogrammet:
+ *  Hovedprogrammet:
  */
-
-int main()  {
-    char kommando;               // Lager variabel for kommando
-    int  tallene[ANTINT];         // Lager array for tallene
-    char teksten[STRLEN];         // Lager array for postnr og poststed
+int main ()  {
+    char kommando;
     
-    skrivMeny();                  // Skriver ut kommandomeny
-    kommando = lesKommando();     // Leser inn kommando fra lesKommando() funksjonen
+    skrivMeny();
+    kommando = lesKommando();
     
-    while (kommando != 'Q') {     //Programmet stoppe når kommando er Q
-        switch (kommando) {
-            // F for å fylle array tallene med 20 tall ved hjelp av fyllAray:
-            case 'F': fyllArray(tallene, ANTINT);
-                break;
-            // A for å skrive ut hvor mange av tallene som er mellom 0 og 2000 ved hjelp av antallIArray:
-            case 'A':
-                printf("\n\tAntall i arrayen i intervallet 0-2000: %i\n",
-                antallIArray(tallene, ANTINT, 0, 2000));
-                break;
-            // L for å lese inn Postnummer og poststed ved hjelp av lesTekst():
-            case 'L': lesTekst("Postnummer og -sted", teksten);
-                break;
-            // S fo å sjekke om postnummer og poststed er gyldig ved hjelp av sjekkTekst():
-            case 'S':
-                printf("\n\tTeksten er%s et gyldig postnr og -sted.\n",
-                ((!sjekkTekst(teksten)) ? " IKKE" : ""));
-                break;
-            // Alle andre tegn vil skrive ut kommandomenyen:
-            default: skrivMeny();
-                break;
+    while (kommando != 'Q')  {
+        switch (kommando)  {
+            case 'O':  oversikt();  break;    //  Oversikt over varelager.
+            case 'N':  nyVare();    break;    //  Registrer ny vare.
+            case 'M':  endreAntallet(Motta);  break;  //  Motta 'x' stk. av vare.
+            case 'S':  endreAntallet(Selge);  break;  //  Selg 'x' stk. av vare.
+            case 'F':  fjernVare(); break;    //  Fjern en vare fra lager.
+            default:   skrivMeny(); break;    //  Ikke-eksisterende menyvalg.
         }
-        kommando = lesKommando();    // Leser inn ny kommando
+        kommando = lesKommando();
     }
-    return 0;   // Avslutter hovedprogrammet
+    
+    printf("\n\n");
+    return 0;
 }
 
- /**
+/**
  *  Leser tekst inn i medsendt char-array/tekst/string.
  *
  *  @param   tall   - Int-array for tall
@@ -81,7 +81,7 @@ int antallIArray(int tall[], const int n, const int min, const int max) {
 }
 
 
- /**
+/**
  *  Leser tekst inn i medsendt char-array/tekst/string.
  *
  *  @param   tall  -  int-array som fylles med innleste tall
@@ -93,7 +93,7 @@ void fyllArray(int tall[], const int n) {
     for(int i=0; i<n; i++) tall[i]=lesTall("Skriv inn heltall ", 0, 10000);  // Bruker lesTall og legger inn i array
 }
 
- /**
+/**
  *  Leser og returnerer ett (upcaset) tegn.
  *
  *  @return  Ett (upcaset) tegn.
@@ -105,7 +105,7 @@ char lesKommando()  {
     return (toupper(tegn));            // Returnerer kommando gjort om til stor bokstav
 }
 
- /**
+/**
  *  Leser og returnerer et tall mellom to gitte grenser.
  *
  *  @param   tekst  - Ledetekst til brukeren nÂr ber om input/et tall
@@ -124,7 +124,7 @@ int lesTall(const char tekst[], const int min, const int max)  {
     return tall;    // Returnerer gyldig innlest tall
 }
 
- /**
+/**
  *  Leser tekst inn i medsendt char-array/tekst/string.
  *
  *  @param   ledetekst  - Ledetekst som utskrift til brukeren om hva lese inn
