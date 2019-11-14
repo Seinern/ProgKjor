@@ -10,10 +10,11 @@
 #include <stdio.h>          // scanf, printf
 #include <stdbool.h>        // bool
 #include <ctype.h>          // toupper, isdigit, isalpha
-#include "LesData.h"            //  Verktøykasse for lesing av diverse data.
+#include "LesData.h"        //  Verktøykasse for lesing av diverse data.
 
 #define MAXPERS 6
 #define MAXOPPG 20
+const int STRLEN = 90;
 
 struct Oppgave {
     char* navn;
@@ -22,17 +23,17 @@ struct Oppgave {
     int hvem[MAXPERS];
 };
 
-void fjernOppgave();
-void nyOppgave();
-void ledigeOppgaver();
+void fjernOppgave(void);
+void nyOppgave(void);
+void ledigeOppgaver(void);
 bool oppgaveLedigPlass(const struct Oppgave* oppgave);
 void oppgaveLesData(struct Oppgave* oppgave);
 void oppgaveSkrivData(const struct Oppgave* oppgave);
 void oppgaveSlettData(struct Oppgave* oppgave);
 void oppgaveTilknyttPersoner(struct Oppgave* oppgave);
-void personerTilknyttesOppgave();
-void skrivMeny();
-void skrivOppgaver();
+void personerTilknyttesOppgave(void);
+void skrivMeny(void);
+void skrivOppgaver(void);
 
 
 struct Oppgave* gOppgavene[MAXOPPG];
@@ -45,56 +46,92 @@ int main ()  {
     char kommando;
     
     skrivMeny();
-    kommando = lesKommando();
+    kommando = lesChar("Skriv kommando: ");
     
     while (kommando != 'Q')  {
         switch (kommando)  {
-            case 'O':  oversikt();  break;    //  Oversikt over varelager.
-            case 'N':  nyVare();    break;    //  Registrer ny vare.
-            case 'M':  endreAntallet(Motta);  break;  //  Motta 'x' stk. av vare.
-            case 'S':  endreAntallet(Selge);  break;  //  Selg 'x' stk. av vare.
-            case 'F':  fjernVare(); break;    //  Fjern en vare fra lager.
-            default:   skrivMeny(); break;    //  Ikke-eksisterende menyvalg.
+            case 'N':  nyOppgave();  break;
+            case 'S':  skrivOppgaver();    break;
+            case 'L':  ledigeOppgaver();  break;
+            case 'T':  personerTilknyttesOppgave();  break;
+            case 'F':  fjernOppgave(); break;
+            default:   skrivMeny(); break;
         }
-        kommando = lesKommando();
+        kommando = lesChar("Skriv kommando: ");
     }
     
     printf("\n\n");
     return 0;
 }
 
-void fjernOppgave();
+//void fjernOppgave();
 void nyOppgave() {
-    if (gSisteOppgave>MAXOPPG) {
-        printf("Fuck you");
+    if (gSisteOppgave<MAXOPPG) {
+        printf("Ny oppgave nr:  %i\n", gSisteOppgave+1); // Lager nytt maleri:
+        gOppgavene[gSisteOppgave] = (struct Oppgave*) malloc(sizeof(struct Oppgave));
+        oppgaveLesData(gOppgavene[gSisteOppgave]);     //  Maleriets data leses.
+        gSisteOppgave++;
     }
     else {
-        persPeker = (struct Oppgave*) malloc(sizeof(struct Oppgave));
-        
-        personLesData(persPeker);            //  Leser personen sine data.
-        
-        persPeker->neste = personListe;      //  HEKTER INN FORREST !!!!! :
-        
-        personListe = persPeker;
+        printf("Fuck you");
     }
     
 }
-void ledigeOppgaver();
-bool oppgaveLedigPlass(const struct Oppgave* oppgave);
-void oppgaveLesData(struct Oppgave* oppgave);
-void oppgaveSkrivData(const struct Oppgave* oppgave);
-void oppgaveSlettData(struct Oppgave* oppgave);
-void oppgaveTilknyttPersoner(struct Oppgave* oppgave);
-void personerTilknyttesOppgave();
+void ledigeOppgaver() {
 
+}
+
+bool oppgaveLedigPlass(const struct Oppgave* oppgave) {
+    int antallArbeidereLedig
+    for (int i=0; i<MAXOPPG; i++) {
+        for (int j=0; j<MAXPERS; i++) {
+            if(oppgave[i]->hvem[j]=0) antallArbeidereLedig++
+        }
+        if (antallarbeidere) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+void oppgaveLesData(struct Oppgave* oppgave) {
+    oppgave->navn = lagOgLesText("Navn: ");
+    oppgave->antallTotalt = lesInt("Antall personer som trengs til oppgaven: ", 0, MAXPERS);
+    oppgave->antallNaa = 0;
+    
+    for(int i=0; i<MAXPERS; i++)oppgave->hvem[i]=0;
+}
+
+void oppgaveSkrivData(const struct Oppgave* oppgave) {
+    printf("Navn: %s, Antall totalt: %i , Antall nå: %i , Hvem: ", oppgave->navn, oppgave->antallTotalt, oppgave->antallNaa);
+    for (int i=0; oppgave->hvem[i]!='\0'; i++) printf("%i, ", oppgave->hvem[i]);
+    printf("\n\n");
+}
+
+void oppgaveSlettData(struct Oppgave* oppgave) {
+
+}
+
+void oppgaveTilknyttPersoner(struct Oppgave* oppgave) {
+
+}
+
+void personerTilknyttesOppgave() {
+
+}
 
 void skrivMeny() {
     printf("Kommandomeny:\n");
-    printf("F for å fylle array\n");
-    printf("A skriver ut antall tall i arrayen mellom 0 og 2000\n");
-    printf("L for å lese teksten (Postnummer og poststed)\n");
-    printf("S for å sjekke om postnummer og poststed er gyldig\n");
-    printf("Q for å stoppe programlmet\n");
+    printf("N for ny oppgave\n");
+    printf("S for å skrive oppgave\n");
+    printf("L for å vise ledige oppgaver\n");
+    printf("T for å tilknytte person til oppgave\n");
+    printf("F for å fjerne oppgave\n");
+    printf("Q for å stoppe programmet\n");
 }
 
-void skrivOppgaver();
+void skrivOppgaver() {
+    for (int i=0; i<gSisteOppgave; i++) oppgaveSkrivData(gOppgavene[i]);
+}
