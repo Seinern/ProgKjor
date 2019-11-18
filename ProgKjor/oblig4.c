@@ -64,7 +64,10 @@ int main ()  {
     return 0;
 }
 
-//void fjernOppgave();
+void fjernOppgave() {
+
+}
+
 void nyOppgave() {
     if (gSisteOppgave<MAXOPPG) {
         printf("Ny oppgave nr:  %i\n", gSisteOppgave+1); // Lager nytt maleri:
@@ -78,22 +81,14 @@ void nyOppgave() {
     
 }
 void ledigeOppgaver() {
-
+    for (int i=0; i<gSisteOppgave; i++) {
+        if(oppgaveLedigPlass(gOppgavene[i])) oppgaveSkrivData(gOppgavene[i]);
+    }
 }
 
 bool oppgaveLedigPlass(const struct Oppgave* oppgave) {
-    int antallArbeidereLedig
-    for (int i=0; i<MAXOPPG; i++) {
-        for (int j=0; j<MAXPERS; i++) {
-            if(oppgave[i]->hvem[j]=0) antallArbeidereLedig++
-        }
-        if (antallarbeidere) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    if (oppgave->antallNaa<oppgave->antallTotalt) return true;
+    else return false;
 }
 
 void oppgaveLesData(struct Oppgave* oppgave) {
@@ -101,7 +96,7 @@ void oppgaveLesData(struct Oppgave* oppgave) {
     oppgave->antallTotalt = lesInt("Antall personer som trengs til oppgaven: ", 0, MAXPERS);
     oppgave->antallNaa = 0;
     
-    for(int i=0; i<MAXPERS; i++)oppgave->hvem[i]=0;
+    for(int i=0; i<MAXPERS; i++)oppgave->hvem[i]='\0';
 }
 
 void oppgaveSkrivData(const struct Oppgave* oppgave) {
@@ -115,11 +110,29 @@ void oppgaveSlettData(struct Oppgave* oppgave) {
 }
 
 void oppgaveTilknyttPersoner(struct Oppgave* oppgave) {
-
+    oppgaveSkrivData(oppgave);
+    int hvorMangeTilknyttes;
+    if (oppgave->antallNaa==oppgave->antallTotalt) {
+        printf("Denne oppgaven trenger ikke flere arbeidere");
+    } else {
+        hvorMangeTilknyttes=lesInt("Hvor mange vil du tilknytte til denne oppgaven: ", 1, oppgave->antallTotalt);
+        for (int i=0; i<hvorMangeTilknyttes; i++) {
+            <#statements#>
+        }
+    }
 }
 
 void personerTilknyttesOppgave() {
-
+    int valgtOppgaveNr;
+    
+    if (gSisteOppgave==0) printf("Det finnes ingen oppgaver");
+    
+    valgtOppgaveNr=lesInt("Skriv inn oppgave nr: ", 1, gSisteOppgave+1)-1;
+    
+    if (valgtOppgaveNr+1==(0)) printf("Du har valgt å avslutte denne kommandoen");
+    
+    else (oppgaveLedigPlass(gOppgavene[valgtOppgaveNr])); oppgaveTilknyttPersoner(gOppgavene[valgtOppgaveNr]);
+    
 }
 
 void skrivMeny() {
