@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8F937C84237713410022D3A5 /* oblig4.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F937C83237713410022D3A5 /* oblig4.c */; };
+		8F8F1C7B2386BC6E00662507 /* oppgave34.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F1C7A2386BC6E00662507 /* oppgave34.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,7 +27,7 @@
 		8F8890FE2338F3590064E9B5 /* ProgKjor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProgKjor; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F889112233B77150064E9B5 /* Downloads */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Downloads; path = ../../Downloads; sourceTree = "<group>"; };
 		8F889113233B772E0064E9B5 /* ProgKjor */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ProgKjor; sourceTree = "<group>"; };
-		8F937C83237713410022D3A5 /* oblig4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = oblig4.c; sourceTree = "<group>"; };
+		8F8F1C7A2386BC6E00662507 /* oppgave34.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = oppgave34.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 		8F8891002338F3590064E9B5 /* ProgKjor */ = {
 			isa = PBXGroup;
 			children = (
-				8F937C83237713410022D3A5 /* oblig4.c */,
+				8F8F1C7A2386BC6E00662507 /* oppgave34.c */,
 			);
 			path = ProgKjor;
 			sourceTree = "<group>";
@@ -124,7 +124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F937C84237713410022D3A5 /* oblig4.c in Sources */,
+				8F8F1C7B2386BC6E00662507 /* oppgave34.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
